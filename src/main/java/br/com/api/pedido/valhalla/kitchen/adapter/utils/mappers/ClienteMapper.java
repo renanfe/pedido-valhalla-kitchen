@@ -19,8 +19,6 @@ public class ClienteMapper {
     public static Cliente clienteEntityToCliente(final ClienteEntity clienteEntity) {
         return Cliente.builder()
                 .id(clienteEntity.getId())
-                .email(clienteEntity.getEmail())
-                .cpf(clienteEntity.getCpf())
                 .nome(clienteEntity.getNome()).build();
     }
 
