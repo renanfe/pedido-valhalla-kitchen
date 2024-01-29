@@ -1,7 +1,8 @@
-package br.com.api.pedido.valhalla.kitchen.core.applications.services;
+package br.com.api.pedido.valhalla.kitchen.adapter.driven.infra;
 
+import br.com.api.pedido.valhalla.kitchen.adapter.driven.infra.entity.ClienteEntity;
+import br.com.api.pedido.valhalla.kitchen.adapter.driven.infra.jpa.ClienteRepositoryJpa;
 import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.ClienteForm;
-import br.com.api.pedido.valhalla.kitchen.core.applications.ports.ClienteRepository;
 import br.com.api.pedido.valhalla.kitchen.core.domain.Cliente;
 import br.com.api.pedido.valhalla.kitchen.helper.ClienteHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,37 +19,37 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ClienteServiceTest {
+class ClienteRepositoryImplTest {
 
     @Mock
-    private ClienteRepository clienteRepository;
+    private ClienteRepositoryJpa clienteRepositoryJpa;
 
-    private ClienteService underTest;
+    private ClienteRepositoryImpl underTest;
 
     @BeforeEach
-    void setUp() {
-        underTest = new ClienteService(clienteRepository);
+    void setUp () {
+        underTest = new ClienteRepositoryImpl(clienteRepositoryJpa);
     }
 
     @Test
     void deveRetornarCliente_quandoCpfEstiverCadastrado() throws IOException {
         // given
         String cpf = "12345678958";
+        ClienteEntity clienteEntity = ClienteHelper.gerarClienteEntity();
         Cliente clienteExpected = ClienteHelper.gerarClienteRetornoTela();
 
-        when(clienteRepository.buscarClientePorCpf(cpf)).thenReturn(Optional.of(clienteExpected));
+        when(clienteRepositoryJpa.getByCpf(cpf)).thenReturn(Optional.of(clienteEntity));
 
         // when
-        Optional<Cliente> clienteAtual = underTest.buscaClienteCpf(cpf);
+        Optional<Cliente> clienteAtual = underTest.buscarClientePorCpf(cpf);
 
         // then
-        verify(clienteRepository, times(1)).buscarClientePorCpf(cpf);
+        verify(clienteRepositoryJpa, times(1)).getByCpf(cpf);
         assertTrue(clienteAtual.isPresent());
         assertEquals(clienteAtual.get().getId(), clienteExpected.getId());
         assertNull(clienteAtual.get().getCpf());
@@ -61,35 +62,35 @@ class ClienteServiceTest {
         // given
         String cpf = "12345678958";
 
-        when(clienteRepository.buscarClientePorCpf(cpf)).thenReturn(Optional.empty());
+        when(clienteRepositoryJpa.getByCpf(cpf)).thenReturn(Optional.empty());
 
         // when
-        Optional<Cliente> clienteAtual = underTest.buscaClienteCpf(cpf);
+        Optional<Cliente> clienteAtual = underTest.buscarClientePorCpf(cpf);
 
         // then
-        verify(clienteRepository, times(1)).buscarClientePorCpf(cpf);
+        verify(clienteRepositoryJpa, times(1)).getByCpf(cpf);
         assertFalse(clienteAtual.isPresent());
     }
 
     @Test
     void deveCriarCliente_quandoTodosOsDadosForemInformados() throws IOException {
-        //given
-        ClienteForm clienteForm = ClienteHelper.gerarClienteForm();
-        Cliente clienteExpected = ClienteHelper.gerarClienteRetornoTela();
+        // given
         Cliente clienteRequest = ClienteHelper.gerarClienteRequest();
+        ClienteEntity clienteEntityRequest = ClienteHelper.gerarClienteRequestEntity();
+        ClienteEntity clienteEntity = ClienteHelper.gerarClienteEntity();
 
-        when(clienteRepository.criarCliente(clienteRequest)).thenReturn(clienteExpected);
+        when(clienteRepositoryJpa.save(clienteEntityRequest)).thenReturn(clienteEntity);
 
-        //when
-        Cliente clienteAtual = underTest.criarCliente(clienteForm);
+        // when
+        Cliente clienteAtual = underTest.criarCliente(clienteRequest);
 
-        //then
-        verify(clienteRepository, times(1)).criarCliente(any(Cliente.class));
+        // then
+        verify(clienteRepositoryJpa, times(1)).save(clienteEntityRequest);
         assertNotNull(clienteAtual);
-        assertEquals(clienteAtual.getId(), clienteExpected.getId());
+        assertEquals(clienteAtual.getId(), clienteEntity.getId());
         assertNull(clienteAtual.getCpf());
         assertNull(clienteAtual.getEmail());
-        assertEquals(clienteAtual.getNome(), clienteExpected.getNome());
+        assertEquals(clienteAtual.getNome(), clienteEntity.getNome());
     }
 
 }
