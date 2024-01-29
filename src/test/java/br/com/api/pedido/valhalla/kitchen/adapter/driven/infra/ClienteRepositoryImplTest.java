@@ -2,7 +2,6 @@ package br.com.api.pedido.valhalla.kitchen.adapter.driven.infra;
 
 import br.com.api.pedido.valhalla.kitchen.adapter.driven.infra.entity.ClienteEntity;
 import br.com.api.pedido.valhalla.kitchen.adapter.driven.infra.jpa.ClienteRepositoryJpa;
-import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.ClienteForm;
 import br.com.api.pedido.valhalla.kitchen.core.domain.Cliente;
 import br.com.api.pedido.valhalla.kitchen.helper.ClienteHelper;
 import org.junit.jupiter.api.BeforeEach;
