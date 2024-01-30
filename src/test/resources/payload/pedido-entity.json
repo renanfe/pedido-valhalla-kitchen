@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "clienteId": "182b7d0b-36b8-4919-aa13-881317d8ccd7",
+  "status": "Recebido",
+  "statusPagamento": "Aguardando",
+  "produtos": [
+    {
+      "produtoId": 10,
+      "quantidade": 1
+    },
+    {
+      "produtoId": 11,
+      "quantidade": 1
+    }
+  ]
+}

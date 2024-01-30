@@ -187,7 +187,7 @@ class ProdutoServiceTest {
     }
 
     @Test
-    void deveRetornarVazio_quandoIdNaoEstiverCorretoAoInativarProduto() throws IOException {
+    void deveRetornarVazio_quandoIdNaoEstiverCorretoAoInativarProduto() {
         // given
         Long id = 10L;
 
