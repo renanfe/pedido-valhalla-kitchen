@@ -94,17 +94,16 @@ class ProdutoServiceTest {
     @Test
     void deveCriarProduto_quandoTodosCamposInformadoCorreto() throws IOException {
         // given
-        Produto produtoRequest = ProdutoHelper.gerarProdutoRequest();
         Produto produtoExpected = ProdutoHelper.gerarProduto();
         ProdutoForm produtoForm = ProdutoHelper.gerarProdutoForm();
 
-        when(produtoRepository.salvarProduto(produtoRequest)).thenReturn(produtoExpected);
+        when(produtoRepository.salvarProduto(any(Produto.class))).thenReturn(produtoExpected);
 
         // when
         Produto produtoAtual = underTest.criarProduto(produtoForm);
 
         // then
-        verify(produtoRepository, times(1)).salvarProduto(produtoRequest);
+        verify(produtoRepository, times(1)).salvarProduto(any(Produto.class));
         assertEquals(produtoExpected.getId(), produtoAtual.getId());
         assertEquals(produtoExpected.getNome(), produtoAtual.getNome());
         assertEquals(produtoExpected.getPreco(), produtoAtual.getPreco());
@@ -126,14 +125,14 @@ class ProdutoServiceTest {
         produtoAlterado.setDescricao(produtoAlteradoForm.getDescricao());
 
         when(produtoRepository.buscarProdutoPorId(id)).thenReturn(Optional.of(produtoOriginal));
-        when(produtoRepository.salvarProduto(produtoAlterado)).thenReturn(produtoAlterado);
+        when(produtoRepository.salvarProduto(any(Produto.class))).thenReturn(produtoAlterado);
 
         // when
         Optional<Produto> produtoAtual = underTest.editarProdutoPorId(id, produtoAlteradoForm);
 
         // then
         verify(produtoRepository, times(1)).buscarProdutoPorId(id);
-        verify(produtoRepository, times(1)).salvarProduto(produtoAlterado);
+        verify(produtoRepository, times(1)).salvarProduto(any(Produto.class));
         assertTrue(produtoAtual.isPresent());
         assertEquals(produtoAlterado.getId(), produtoAtual.get().getId());
         assertEquals(produtoAlterado.getNome(), produtoAtual.get().getNome());
@@ -169,14 +168,14 @@ class ProdutoServiceTest {
         produtoAlterado.setStatus(Status.INATIVO.getDescricao());
 
         when(produtoRepository.buscarProdutoPorId(id)).thenReturn(Optional.of(produtoOriginal));
-        when(produtoRepository.salvarProduto(produtoAlterado)).thenReturn(produtoAlterado);
+        when(produtoRepository.salvarProduto(any(Produto.class))).thenReturn(produtoAlterado);
 
         // when
         Optional<Produto> produtoAtual = underTest.inativarProduto(id);
 
         // then
         verify(produtoRepository, times(1)).buscarProdutoPorId(id);
-        verify(produtoRepository, times(1)).salvarProduto(produtoAlterado);
+        verify(produtoRepository, times(1)).salvarProduto(any(Produto.class));
         assertTrue(produtoAtual.isPresent());
         assertEquals(produtoAlterado.getId(), produtoAtual.get().getId());
         assertEquals(produtoAlterado.getNome(), produtoAtual.get().getNome());

@@ -76,9 +76,8 @@ class ClienteServiceTest {
         //given
         ClienteForm clienteForm = ClienteHelper.gerarClienteForm();
         Cliente clienteExpected = ClienteHelper.gerarClienteRetornoTela();
-        Cliente clienteRequest = ClienteHelper.gerarClienteRequest();
 
-        when(clienteRepository.criarCliente(clienteRequest)).thenReturn(clienteExpected);
+        when(clienteRepository.criarCliente(any(Cliente.class))).thenReturn(clienteExpected);
 
         //when
         Cliente clienteAtual = underTest.criarCliente(clienteForm);

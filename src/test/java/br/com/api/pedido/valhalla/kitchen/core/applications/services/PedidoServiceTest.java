@@ -17,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -76,13 +77,13 @@ class PedidoServiceTest {
         Pedido pedido = PedidoHelper.gerarPedido();
         Pedido pedidoRequest = PedidoHelper.gerarPedidoRequest();
 
-        when(pedidoRepository.salvarPedido(pedidoRequest)).thenReturn(pedido);
+        when(pedidoRepository.salvarPedido(any(Pedido.class))).thenReturn(pedido);
         
         // when
         Pedido pedidoAtual = underTest.criarPedido(pedidoForm);
 
         // then
-        verify(pedidoRepository, times(1)).salvarPedido(pedidoRequest);
+        verify(pedidoRepository, times(1)).salvarPedido(any(Pedido.class));
         assertNotNull(pedidoAtual);
         assertEquals(pedidoRequest.getClienteId(), pedidoAtual.getClienteId());
     }

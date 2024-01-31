@@ -18,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -92,17 +93,16 @@ class ProdutoRepositoryImplTest {
     @Test
     void deveCriarProduto_quandoTodosCamposInformadoCorreto() throws IOException {
         // given
-        ProdutoEntity produtoEntityRequest = ProdutoHelper.gerarProdutoEntityRequest();
         ProdutoEntity produtoEntity = ProdutoHelper.gerarProdutoEntity();
         Produto produtoRequest = ProdutoHelper.gerarProdutoRequest();
 
-        when(produtoRepositoryJpa.save(produtoEntityRequest)).thenReturn(produtoEntity);
+        when(produtoRepositoryJpa.save(any(ProdutoEntity.class))).thenReturn(produtoEntity);
 
         // when
         Produto produtoAtual = underTest.salvarProduto(produtoRequest);
 
         // then
-        verify(produtoRepositoryJpa, times(1)).save(produtoEntityRequest);
+        verify(produtoRepositoryJpa, times(1)).save(any(ProdutoEntity.class));
         assertNotNull(produtoAtual);
         assertEquals(produtoEntity.getId(), produtoAtual.getId());
     }

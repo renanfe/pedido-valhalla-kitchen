@@ -17,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -71,17 +72,16 @@ class PedidoRepositoryImplTest {
     @Test
     void deveCriarPedido_quandoTodosCamposInformadoCorreto() throws IOException {
         // given
-        PedidoEntity pedidoEntityRequest = PedidoHelper.gerarPedidoEntityRequest();
         PedidoEntity pedidoExpected = PedidoHelper.gerarPedidoEntity();
         Pedido pedidoRequest = PedidoHelper.gerarPedidoRequest();
 
-        when(pedidoRepositoryJpa.save(pedidoEntityRequest)).thenReturn(pedidoExpected);
+        when(pedidoRepositoryJpa.save(any(PedidoEntity.class))).thenReturn(pedidoExpected);
 
         // when
         Pedido pedidoAtual = underTest.salvarPedido(pedidoRequest);
 
         // then
-        verify(pedidoRepositoryJpa, times(1)).save(pedidoEntityRequest);
+        verify(pedidoRepositoryJpa, times(1)).save(any(PedidoEntity.class));
         assertNotNull(pedidoAtual);
         assertEquals(pedidoExpected.getClienteId(), pedidoAtual.getClienteId());
     }

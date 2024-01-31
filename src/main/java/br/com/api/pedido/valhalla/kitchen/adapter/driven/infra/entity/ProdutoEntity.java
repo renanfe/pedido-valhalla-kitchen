@@ -9,7 +9,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -17,9 +17,9 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "produto")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
 @SequenceGenerator(name = "produto_generator", sequenceName = "produto_id_seq", allocationSize = 1)
 public class ProdutoEntity implements Serializable {
