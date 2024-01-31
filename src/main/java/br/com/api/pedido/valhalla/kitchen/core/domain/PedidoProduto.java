@@ -5,16 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Cliente {
-    private UUID id;
-    private String cpf;
-    private String email;
-    private String nome;
-
+public class PedidoProduto {
+    private Long produtoId;
+    private int quantidade;
 }

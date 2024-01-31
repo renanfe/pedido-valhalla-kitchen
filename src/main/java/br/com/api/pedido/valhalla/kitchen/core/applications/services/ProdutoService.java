@@ -41,7 +41,7 @@ public class ProdutoService {
             Produto produtoAtualizado = ProdutoMapper.produtoFormToProduto(produtoForm);
             produtoAtualizado.setId(id);
 
-            produtoRepository.salvarProduto(produtoAtualizado);
+            return Optional.of(produtoRepository.salvarProduto(produtoAtualizado));
         }
 
         return produtoDTO;
@@ -61,4 +61,5 @@ public class ProdutoService {
 
         return produtoDTO;
     }
+
 }
