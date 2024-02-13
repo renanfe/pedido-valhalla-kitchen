@@ -31,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: pedido-valhalla-artifact
-        path: target/api.pedido.valhalla.kitchen.1.0.0.jar
+        path: target/api.pedido.valhalla.kitchen-1.0.0.jar
