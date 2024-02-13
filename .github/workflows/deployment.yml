@@ -32,3 +32,12 @@ jobs:
       with:
         name: pedido-valhalla-artifact
         path: target/api.pedido.valhalla.kitchen-1.0.0.jar
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v5.1.0
+      with:
+        build-args: DB_USERNAME=sa; DB_PASSWORD=password; SPRING_PROFILE=production
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: caiolepetit/api-pedidos-valhalla-kitchen:latest
+          
