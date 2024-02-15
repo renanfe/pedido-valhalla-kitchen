@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4.1.1
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4.0.0
       with:
         java-version: '17'
         distribution: 'temurin'
@@ -28,7 +28,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -DskipTests --file pom.xml      
     - name: Save artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: pedido-valhalla-artifact
         path: target/api.pedido.valhalla.kitchen-1.0.0.jar
@@ -45,13 +45,3 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen:latest
-  deploy:
-    needs: build
-    runs-on: [aws-ec2]
-    steps:
-      - name: Pull Image from docker hub
-        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen:latest
-      - name: Delete old container
-        run: sudo docker rm -f api-pedidos-valhalla-kitchen
-      - name: Run Docker Image
-        run: sudo docker run -d -p 8080:8080 --name api-pedidos-valhalla-kitchen ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen
