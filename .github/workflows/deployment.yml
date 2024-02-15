@@ -45,4 +45,13 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen:latest
-          
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull Image from docker hub
+        run: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen:latest
+      - name: Delete old container
+        run: sudo docker rm -f api-pedidos-valhalla-kitchen
+      - name: Run Docker Image
+        run: sudo docker run -d -p 8080:8080 --name api-pedidos-valhalla-kitchen ${{ secrets.DOCKERHUB_USERNAME }}/api-pedidos-valhalla-kitchen
