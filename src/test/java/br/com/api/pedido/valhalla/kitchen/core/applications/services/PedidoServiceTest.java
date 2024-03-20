@@ -2,6 +2,7 @@ package br.com.api.pedido.valhalla.kitchen.core.applications.services;
 
 import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.PedidoForm;
 import br.com.api.pedido.valhalla.kitchen.core.applications.ports.PedidoRepository;
+import br.com.api.pedido.valhalla.kitchen.core.applications.ports.PedidoSQSOUTAdapter;
 import br.com.api.pedido.valhalla.kitchen.core.domain.Pedido;
 import br.com.api.pedido.valhalla.kitchen.helper.PedidoHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,11 +29,14 @@ class PedidoServiceTest {
     @Mock
     private PedidoRepository pedidoRepository;
 
+    @Mock
+    private PedidoSQSOUTAdapter pedidoSQSOUTAdapter;
+
     private PedidoService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new PedidoService(pedidoRepository);
+        underTest = new PedidoService(pedidoRepository, pedidoSQSOUTAdapter);
     }
 
     @Test

@@ -11,10 +11,12 @@ spring:
   cloud:
     aws:
       credentials:
-        accessKey: ${AWS_ACCESS_KEY:}
-        secretKey: ${AWS_SECRET_KEY:}
+        accessKey: ${AWS_ACCESS_KEY}
+        secretKey: ${AWS_SECRET_KEY}
       region:
         static: ${AWS_REGION}
 queue:
   pedido-gerado: queue-pedido-gerado
   pedido-aprovado: queue-pedido-aprovado
+  in:
+    retorno-pagamento: queue-retorno-pagamento

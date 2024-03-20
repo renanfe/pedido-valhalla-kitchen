@@ -21,4 +21,13 @@ public class Pedido {
     private List<PedidoProduto> produtos;
     @Builder.Default
     private String statusPagamento = "Aguardando";
+
+    public static Pedido atualizarPagamento(Pedido pedido, String statusPagamento) {
+        return Pedido.builder().id(pedido.getId())
+                .clienteId(pedido.getClienteId())
+                .status(pedido.getStatus())
+                .produtos(pedido.getProdutos())
+                .statusPagamento(statusPagamento)
+                .build();
+    }
 }

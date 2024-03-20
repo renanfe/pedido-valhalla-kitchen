@@ -1,6 +1,7 @@
 package br.com.api.pedido.valhalla.kitchen.adapter.utils.mappers;
 
 import br.com.api.pedido.valhalla.kitchen.adapter.driven.infra.entity.PedidoEntity;
+import br.com.api.pedido.valhalla.kitchen.adapter.driven.infra.messaging.out.dto.PedidoConfirmado;
 import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.PedidoForm;
 import br.com.api.pedido.valhalla.kitchen.core.domain.Pedido;
 
@@ -31,4 +32,7 @@ public class PedidoMapper {
     }
 
 
+    public static Object pedidoToPedidoConfirmado(final Pedido pedidoAtualizado) {
+        return PedidoConfirmado.builder().pedidoId(pedidoAtualizado.getId()).build();
+    }
 }
