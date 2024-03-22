@@ -1,5 +1,6 @@
 package br.com.api.pedido.valhalla.kitchen.core.applications.services;
 
+import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.AtualizacaoPedidoForm;
 import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.PedidoForm;
 import br.com.api.pedido.valhalla.kitchen.adapter.driver.form.RetornoPagamentoForm;
 import br.com.api.pedido.valhalla.kitchen.adapter.utils.mappers.PedidoMapper;
@@ -15,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Log4j2
 @Service
@@ -57,9 +57,9 @@ public class PedidoService {
     public void processarRetornoPagamento (RetornoPagamentoForm retornoPagamentoForm) {
         if(retornoPagamentoForm.getStatusRetorno().equals("CONCLUIDO")) {
             processarPagamentoAprovado(retornoPagamentoForm);
+        } else {
+            processarPagamentoRejeitado(retornoPagamentoForm);
         }
-
-        processarPagamentoRejeitado(retornoPagamentoForm);
     }
 
     private void processarPagamentoRejeitado(RetornoPagamentoForm retornoPagamentoForm) {
@@ -96,4 +96,13 @@ public class PedidoService {
 
     }
 
+    public void atualizarSituacaoPedido(AtualizacaoPedidoForm atualizacaoPedidoForm) {
+        Optional<Pedido> pedido = pedidoRepository.buscarPedidoPorId(atualizacaoPedidoForm.getPedidoId());
+
+        if (pedido.isPresent()) {
+            pedidoRepository.salvarPedido(Pedido.atualizarStatus(pedido.get(), atualizacaoPedidoForm.getStatus()));
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado");
+        }
+    }
 }

@@ -30,4 +30,12 @@ public class Pedido {
                 .statusPagamento(statusPagamento)
                 .build();
     }
+    public static Pedido atualizarStatus(Pedido pedido, String status) {
+        return Pedido.builder().id(pedido.getId())
+                .clienteId(pedido.getClienteId())
+                .status(status)
+                .produtos(pedido.getProdutos())
+                .statusPagamento(pedido.getStatusPagamento())
+                .build();
+    }
 }

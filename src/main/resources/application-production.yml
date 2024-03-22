@@ -20,3 +20,4 @@ queue:
   pedido-aprovado: queue-pedido-aprovado
   in:
     retorno-pagamento: queue-retorno-pagamento
+    atualizacao-pedido: queue-atualizacao-situacao-pedido
